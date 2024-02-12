@@ -1,8 +1,8 @@
 import styles from './page.module.css'
-import { COLORS, className } from '@/app/constants'
+import { COLORS } from '@/app/constants'
 const page = () => {
-    const UpdateBrushSize = (e) =>{
-
+    const UpdateBrushSize = () =>{
+      console.log("hello");
     }
   return (
     <div className={styles.toolboxContainer} >
@@ -15,6 +15,7 @@ const page = () => {
             <div className={styles.colorBox} style={{backgroundColor:COLORS.BLUE}} />
             <div className={styles.colorBox} style={{backgroundColor:COLORS.ORANGE}} />
             <div className={styles.colorBox} style={{backgroundColor:COLORS.YELLOW}} />
+            <input type="color" className={styles.colorBox} />
         </div>
       </div>
       <div className={styles.toolItem} >
