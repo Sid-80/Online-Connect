@@ -1,4 +1,4 @@
-@tailwind base;
+/* @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
@@ -30,4 +30,13 @@ body {
   .text-balance {
     text-wrap: balance;
   }
+} */
+.btn{
+  position: relative;
+  top: -5.6rem;
+  transition: top 0.5s;
+}
+.btn.active{
+  position: relative;
+  top: 0rem;
 }
