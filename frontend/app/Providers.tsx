@@ -1,5 +1,5 @@
 'use client'
-import { store } from "@/slice/ToolBarSlice"
+import { store } from "@/store/store"
 import React from "react"
 import { Provider } from "react-redux"
 

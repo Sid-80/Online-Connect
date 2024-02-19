@@ -4,8 +4,6 @@ import Toolbox from "../components/Toolbox/page"
 
 
 export default async function Home() {
-
-
   return  (
     <>
       <Menu />
