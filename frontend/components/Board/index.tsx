@@ -4,14 +4,31 @@ import styles from './page.module.css'
 import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from '@/store/store'
 import { MENU_ITEMS } from '../constants'
+import { actionItemClick, menuItemClick } from '@/slice/MenuSlice';
 
 export default function Board() {
-  const activeMenuItem = useSelector((state: RootState) => state.menu.activeMenuItem);
+  const dispatch = useDispatch();
+  const {activeMenuItem,actionMenuItem} = useSelector((state: RootState) => state.menu);
   const { color, size } = useSelector((state: RootState) => (activeMenuItem === MENU_ITEMS.PENCIL) ? state.tool.PENCIL : state.tool.ERASER)
 
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const contextRef = useRef<CanvasRenderingContext2D | null>(null);
   const shouldDraw = useRef(false);
+
+  useEffect(()=>{
+    if (!canvasRef.current) return;
+
+    const canvas = canvasRef.current;
+    const context = contextRef.current;
+    if(actionMenuItem === MENU_ITEMS.DOWNLOAD){
+      const URL = canvas.toDataURL();
+      const anchor = document.createElement('a');
+      anchor.href = URL;
+      anchor.download = 'sketch.jpg';
+      anchor.click();
+    }
+    dispatch(actionItemClick(null!))
+  },[actionMenuItem])
 
   useEffect(() => {
     const canvas = canvasRef.current;
