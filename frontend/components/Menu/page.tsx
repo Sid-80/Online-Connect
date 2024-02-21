@@ -34,7 +34,7 @@ const index = () => {
   }
 
   return (
-    <div className={`btn`} ref={menuref} onClick={handleClick}>
+    <div className={`btn`} ref={menuref} >
       <div className={styles.menuContainer} >
         <button 
           onClick={() => handleMenuClick(MENU_ITEMS.PENCIL)} 
@@ -77,7 +77,7 @@ const index = () => {
           />
         </button>
       </div>
-      <div className={`${styles.closeBtn}`}>
+      <div className={`${styles.closeBtn}`} onClick={handleClick} >
         {btnState ? <Image src="/downarrow.svg" alt="" className={styles.icon1} width={60}
           height={24} /> : <Image src="/downarrow.svg" alt="" className={styles.icon} width={60}
             height={24} />}
