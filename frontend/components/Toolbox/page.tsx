@@ -35,7 +35,7 @@ const page = () => {
               <div className={`${styles.colorBox} ${(color == COLORS.BLUE) ? 'active:bg-[#FFD0EC] p-1' : ' p-1' }`} onClick={()=>UpdateColor(COLORS.BLUE)} style={{ backgroundColor: COLORS.BLUE }} />
               <div className={`${styles.colorBox} ${(color === COLORS.ORANGE) ? 'active:bg-[#FFD0EC] p-1' : ' p-1' }`} onClick={()=>UpdateColor(COLORS.ORANGE)} style={{ backgroundColor: COLORS.ORANGE }} />
               <div className={`${styles.colorBox} ${(color === COLORS.YELLOW) ? 'active:bg-[#FFD0EC] p-1' : ' p-1' }`} onClick={()=>UpdateColor(COLORS.YELLOW)} style={{ backgroundColor: COLORS.YELLOW }} />
-              <input type="color" className={styles.colorBox} />
+              <input type="color" onChange={(e)=>{UpdateColor(e.target.value)}} className={styles.colorBox} />
             </div>
           </div>
         )
