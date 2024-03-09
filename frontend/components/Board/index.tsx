@@ -14,6 +14,8 @@ export default function Board() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const contextRef = useRef<CanvasRenderingContext2D | null>(null);
   const shouldDraw = useRef(false);
+  const drawHistory = useRef<ImageData []>([])
+  const historyPointer = useRef<number>(0);
 
   useEffect(()=>{
     if (!canvasRef.current) return;
@@ -26,9 +28,17 @@ export default function Board() {
       anchor.href = URL;
       anchor.download = 'sketch.jpg';
       anchor.click();
+    } else if(actionMenuItem === MENU_ITEMS.UNDO || actionMenuItem === MENU_ITEMS.REDO){
+      if(historyPointer.current > 0 && actionMenuItem === MENU_ITEMS.UNDO){
+        historyPointer.current -= 1;
+      }else if(actionMenuItem === MENU_ITEMS.REDO && historyPointer.current < drawHistory.current.length - 1){
+        historyPointer.current += 1;
+      }
+      const imageData = drawHistory.current[historyPointer.current]
+      context?.putImageData(imageData,0,0);
     }
     dispatch(actionItemClick(null!))
-  },[actionMenuItem])
+  },[actionMenuItem,,dispatch])
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -67,27 +77,32 @@ export default function Board() {
       context.stroke();
     }
 
-    const handleMouseDown = (e: React.MouseEvent) => {
+    const handleMouseDown = (e: MouseEvent) => {
       shouldDraw.current = true; 
       beginPath(e.clientX, e.clientY);
     }
 
-    const handleMouseMove = (e: React.MouseEvent) => {
+    const handleMouseMove = (e: MouseEvent) => {
       if (!shouldDraw.current) return;
       drawline(e.clientX,e.clientY);
     }
 
-    const handleMouseUp = (e: React.MouseEvent) => {
-      shouldDraw.current = false; 
+    const handleMouseUp = (e: MouseEvent) => {
+      shouldDraw.current = false;
+      const imageData = context.getImageData(0,0,canvas.width,canvas.height) //It is capturing data from 0,0 to max (height,width)
+      if(drawHistory.current){
+        drawHistory.current.push(imageData);
+        historyPointer.current = drawHistory.current.length - 1;
+      }
     }
 
-    canvas.addEventListener('mousedown', handleMouseDown);
+    canvas.addEventListener('mousedown',handleMouseDown);
     canvas.addEventListener('mousemove', handleMouseMove);
-    canvas.addEventListener('mouseup', handleMouseUp);
+    canvas.addEventListener('mouseup',  handleMouseUp);
 
     return () => {
-      canvas.removeEventListener('mousedown', handleMouseDown);
-      canvas.removeEventListener('mousemove', handleMouseMove);
+      canvas.removeEventListener('mousedown',handleMouseDown);
+      canvas.removeEventListener('mousemove',  handleMouseMove);
       canvas.removeEventListener('mouseup', handleMouseUp);
     };
   }, []);
