@@ -4,7 +4,8 @@ import styles from './page.module.css'
 import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from '@/store/store'
 import { MENU_ITEMS } from '../constants'
-import { actionItemClick, menuItemClick } from '@/slice/MenuSlice';
+import { actionItemClick } from '@/slice/MenuSlice';
+import { socket } from '../Socket/Socket'
 
 export default function Board() {
   const dispatch = useDispatch();
@@ -99,6 +100,10 @@ export default function Board() {
     canvas.addEventListener('mousedown',handleMouseDown);
     canvas.addEventListener('mousemove', handleMouseMove);
     canvas.addEventListener('mouseup',  handleMouseUp);
+
+    socket.on("connect",()=>{
+      console.log('Client Connected!')
+    })
 
     return () => {
       canvas.removeEventListener('mousedown',handleMouseDown);
